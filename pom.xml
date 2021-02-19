@@ -10,6 +10,11 @@
     <packaging>war</packaging>
 
     <name>job4j_dreamjob</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>14</maven.compiler.source>
+        <maven.compiler.target>14</maven.compiler.target>
+    </properties>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
     <build>
@@ -88,11 +93,6 @@
         </plugins>
     </pluginManagement>
 </build>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>14</maven.compiler.source>
-        <maven.compiler.target>14</maven.compiler.target>
-    </properties>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
