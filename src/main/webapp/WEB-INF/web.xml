@@ -6,7 +6,7 @@
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
     <servlet-name>PostServlet</servlet-name>
-    <servlet-class>ru.job4j.dream.servlet.post.PostServlet</servlet-class>
+    <servlet-class>ru.job4j.dream.servlet.post.PostEditServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>CandidateEditServlet</servlet-name>

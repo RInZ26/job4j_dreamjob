@@ -5,6 +5,7 @@ import ru.job4j.dream.model.Post;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -42,13 +43,24 @@ public class Store {
     }
 
     public void savePost(Post post) {
-        post.setId(POST_ID.incrementAndGet());
+        if (post.getId() == 0) {
+            post.setId(POST_ID.incrementAndGet());
+        }
         posts.put(post.getId(), post);
     }
 
     public void saveCandidate(Candidate candidate) {
-        candidate.setId(CANDIDATE_ID.incrementAndGet());
+        if(candidate.getId() == 0) {
+            candidate.setId(CANDIDATE_ID.incrementAndGet());
+        }
         candidates.put(candidate.getId(), candidate);
     }
 
+    public Post findPostById(int id) {
+        return posts.get(id);
+    }
+
+    public Candidate finCandidateById(int id) {
+        return candidates.get(id);
+    }
 }
