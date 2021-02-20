@@ -14,8 +14,6 @@ tmp/*
 
 # java specific
 *.class
-MyTestsTest.java
-MyTests.java
 
 # python specific
 *.pyc
@@ -77,5 +75,3 @@ build
 
 
 src/site
-/src/main/java/
-/chapter_003_SQL_JDBC/src/main/query/create_insert.sql
