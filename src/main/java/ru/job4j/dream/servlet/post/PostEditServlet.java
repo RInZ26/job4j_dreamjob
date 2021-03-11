@@ -18,7 +18,7 @@ public class PostEditServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String idFromReq = req.getParameter("id");
         String nameFromReq = req.getParameter("name");
-        Post result = Objects.isNull(idFromReq) ? null : Store.instOf().findPostById(Integer.parseInt(idFromReq));
+        Post result = "null".equals(idFromReq) ? null : Store.instOf().findPostById(Integer.parseInt(idFromReq));
         if (!Objects.isNull(result) && !Objects.isNull(nameFromReq)) {
             result.setName(nameFromReq);
             Store.instOf().savePost(result);
@@ -26,6 +26,6 @@ public class PostEditServlet extends HttpServlet {
             Store.instOf().savePost(new Post(0, nameFromReq));
         }
 
-        resp.sendRedirect(req.getContextPath() + "/posts.jsp");
+        resp.sendRedirect(req.getContextPath() + "/posts.do");
     }
 }

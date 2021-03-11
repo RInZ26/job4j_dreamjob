@@ -16,7 +16,7 @@ public class CandidateEditServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String nameFromReq = req.getParameter("name");
         String idFromReq = req.getParameter("id");
-        if (!Objects.isNull(idFromReq)) {
+        if (!"null".equals(idFromReq)) {
             Candidate result = Store.instOf().finCandidateById(Integer.parseInt(idFromReq));
             if (!Objects.isNull(result)) {
                 result.setName(nameFromReq);
@@ -26,6 +26,6 @@ public class CandidateEditServlet extends HttpServlet {
             Store.instOf().saveCandidate(new Candidate(0, nameFromReq));
         }
 
-        resp.sendRedirect(req.getContextPath() + "/candidates.jsp");
+        resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }
