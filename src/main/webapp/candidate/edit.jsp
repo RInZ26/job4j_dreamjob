@@ -31,7 +31,7 @@
                 Новый кандидат.
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/candidate/save?id=<%=request.getParameter("id")%>"
+                <form action="<%=request.getContextPath()%>/candidates.do?id=<%=request.getParameter("id")%>"
                       method="post">
                     <div class="form-group">
                         <label>Имя</label>
