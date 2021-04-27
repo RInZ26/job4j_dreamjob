@@ -1,7 +1,7 @@
 package ru.job4j.dream.servlet.post;
 
 import ru.job4j.dream.model.Post;
-import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.MemStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,12 +16,12 @@ public class PostServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String idFromReq = req.getParameter("id");
         String nameFromReq = req.getParameter("name");
-        Post result = "null".equals(idFromReq) ? null : Store.instOf().findPostById(Integer.parseInt(idFromReq));
+        Post result = "null".equals(idFromReq) ? null : MemStore.instOf().findPostById(Integer.parseInt(idFromReq));
         if (!Objects.isNull(result) && !Objects.isNull(nameFromReq)) {
             result.setName(nameFromReq);
-            Store.instOf().savePost(result);
+            MemStore.instOf().savePost(result);
         } else {
-            Store.instOf().savePost(new Post(0, nameFromReq));
+            MemStore.instOf().savePost(new Post(0, nameFromReq));
         }
 
         resp.sendRedirect(req.getContextPath() + "/posts.do");
