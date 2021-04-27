@@ -1,7 +1,7 @@
 package ru.job4j.dream.servlet.candidate;
 
 import ru.job4j.dream.model.Candidate;
-import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.MemStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +17,13 @@ public class CandidateEditServlet extends HttpServlet {
         String nameFromReq = req.getParameter("name");
         String idFromReq = req.getParameter("id");
         if (!"null".equals(idFromReq)) {
-            Candidate result = Store.instOf().finCandidateById(Integer.parseInt(idFromReq));
+            Candidate result = MemStore.instOf().finCandidateById(Integer.parseInt(idFromReq));
             if (!Objects.isNull(result)) {
                 result.setName(nameFromReq);
-                Store.instOf().saveCandidate(result);
+                MemStore.instOf().saveCandidate(result);
             }
         } else {
-            Store.instOf().saveCandidate(new Candidate(0, nameFromReq));
+            MemStore.instOf().saveCandidate(new Candidate(0, nameFromReq));
         }
 
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
