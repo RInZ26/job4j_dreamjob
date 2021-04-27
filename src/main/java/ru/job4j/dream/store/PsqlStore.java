@@ -2,6 +2,8 @@ package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.io.filefilter.CanReadFileFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class PsqlStore implements Store {
-
+    private final Logger log = LoggerFactory.getLogger(PsqlStore.class);
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlStore() {
@@ -52,6 +54,7 @@ public class PsqlStore implements Store {
 
     @Override
     public Collection<Post> findAllPosts() {
+        log.debug("Alina");
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM post AS p ORDER BY p.id")
@@ -62,7 +65,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("findAllPosts was failed with message %s ", e.getMessage()));
         }
         return posts;
     }
@@ -78,9 +81,8 @@ public class PsqlStore implements Store {
                 candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("findAllCandidates with %s was failed ", e.getMessage()));
         }
-
         return candidates;
     }
 
@@ -114,7 +116,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("createPost with %s was failed with message %s ", post.toString(), e.getMessage()));
         }
         return post;
     }
@@ -131,7 +133,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("createCandidate with %s was failed with message %s", candidate.toString(), e.getMessage()));
         }
         return candidate;
     }
@@ -145,19 +147,19 @@ public class PsqlStore implements Store {
             ps.setInt(2, post.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("updatePost with %s was failed with message %s", post.toString(), e.getMessage()));
         }
     }
 
-    private void updateCandidate(Candidate post) {
+    private void updateCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("UPDATE candidate set name = ? where id = ? ");
         ) {
-            ps.setString(1, post.getName());
-            ps.setInt(2, post.getId());
+            ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("updateCandidate with %s was failed with message %s", candidate.toString(), e.getMessage()));
         }
     }
 
@@ -175,7 +177,7 @@ public class PsqlStore implements Store {
             }
             ps.setInt(1, id);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("findPostById with %s was failed with message ", id, e.getMessage()));
         }
         return result;
     }
@@ -194,7 +196,7 @@ public class PsqlStore implements Store {
             }
             ps.setInt(1, id);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(String.format("findCandidateById with %s was failed with message ", id, e.getMessage()));
         }
         return result;
     }
