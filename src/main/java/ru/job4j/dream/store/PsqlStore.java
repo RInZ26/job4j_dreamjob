@@ -65,7 +65,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            log.error(String.format("findAllPosts was failed with message %s ", e.getMessage()));
+            log.error(String.format("findAllPosts was failed with message %s ", e.getMessage()), e);
         }
         return posts;
     }
@@ -81,7 +81,7 @@ public class PsqlStore implements Store {
                 candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
             }
         } catch (Exception e) {
-            log.error(String.format("findAllCandidates with %s was failed ", e.getMessage()));
+            log.error(String.format("findAllCandidates with %s was failed ", e.getMessage()), e);
         }
         return candidates;
     }
@@ -116,7 +116,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            log.error(String.format("createPost with %s was failed with message %s ", post.toString(), e.getMessage()));
+            log.error(String.format("createPost with %s was failed with message %s ", post.toString(), e.getMessage()), e);
         }
         return post;
     }
@@ -133,7 +133,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            log.error(String.format("createCandidate with %s was failed with message %s", candidate.toString(), e.getMessage()));
+            log.error(String.format("createCandidate with %s was failed with message %s", candidate.toString(), e.getMessage()), e);
         }
         return candidate;
     }
@@ -147,7 +147,7 @@ public class PsqlStore implements Store {
             ps.setInt(2, post.getId());
             ps.execute();
         } catch (Exception e) {
-            log.error(String.format("updatePost with %s was failed with message %s", post.toString(), e.getMessage()));
+            log.error(String.format("updatePost with %s was failed with message %s", post.toString(), e.getMessage()), e);
         }
     }
 
@@ -159,7 +159,7 @@ public class PsqlStore implements Store {
             ps.setInt(2, candidate.getId());
             ps.execute();
         } catch (Exception e) {
-            log.error(String.format("updateCandidate with %s was failed with message %s", candidate.toString(), e.getMessage()));
+            log.error(String.format("updateCandidate with %s was failed with message %s", candidate.toString(), e.getMessage()), e);
         }
     }
 
@@ -177,7 +177,7 @@ public class PsqlStore implements Store {
             }
             ps.setInt(1, id);
         } catch (Exception e) {
-            log.error(String.format("findPostById with %s was failed with message ", id, e.getMessage()));
+            log.error(String.format("findPostById with %s was failed with message ", id, e.getMessage()), e);
         }
         return result;
     }
@@ -196,7 +196,7 @@ public class PsqlStore implements Store {
             }
             ps.setInt(1, id);
         } catch (Exception e) {
-            log.error(String.format("findCandidateById with %s was failed with message ", id, e.getMessage()));
+            log.error(String.format("findCandidateById with %s was failed with message ", id, e.getMessage()), e);
         }
         return result;
     }
