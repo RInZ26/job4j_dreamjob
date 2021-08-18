@@ -32,6 +32,9 @@
 
     <div class="row">
         <div class="card" style="width: 100%">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Меню</a>
+            </li>
             <div class="card-header">
                 Кандидаты
             </div>
