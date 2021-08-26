@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 
 public class DownloadServlet extends HttpServlet {
     @Override
@@ -21,10 +23,12 @@ public class DownloadServlet extends HttpServlet {
                 break;
             }
         }
-        resp.setContentType("application/octet-stream");
-        resp.setHeader("Content-Disposition", "attachment; filename=\"" + downloadFile.getName() + "\"");
-        try (FileInputStream stream = new FileInputStream(downloadFile)) {
-            resp.getOutputStream().write(stream.readAllBytes());
+        if (Objects.nonNull(downloadFile)) {
+            resp.setContentType("application/octet-stream");
+            resp.setHeader("Content-Disposition", "attachment; filename=\"" + Optional.ofNullable(downloadFile.getName()).orElse("NOFU") + "\"");
+            try (FileInputStream stream = new FileInputStream(downloadFile)) {
+                resp.getOutputStream().write(stream.readAllBytes());
+            }
         }
     }
 }

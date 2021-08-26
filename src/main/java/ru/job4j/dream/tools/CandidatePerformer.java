@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.store.PsqlStore;
-import ru.job4j.dream.store.Store;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -18,19 +17,18 @@ import java.util.Objects;
 public class CandidatePerformer {
     private static final CandidatePerformer INST = new CandidatePerformer();
     private final Logger log = LogManager.getLogger(PsqlStore.class);
-    private final Store psqlStore = PsqlStore.instOf();
 
     public static CandidatePerformer instOf() {
         return INST;
     }
 
     public boolean removeCandidate(int id, boolean isDeletePhoto) {
-        Candidate candidate = psqlStore.finCandidateById(id);
+        Candidate candidate = PsqlStore.instOf().finCandidateById(id);
         return Objects.nonNull(candidate) && removeCandidate(candidate, isDeletePhoto);
     }
 
     public boolean removeCandidate(@NotNull Candidate candidate, boolean isDeletePhoto) {
-        boolean result = psqlStore.deleteCandidateById(candidate.getId());
+        boolean result = PsqlStore.instOf().deleteCandidateById(candidate.getId());
         if (isDeletePhoto) {
             removeCandidateAvatar(candidate.getId());
         }

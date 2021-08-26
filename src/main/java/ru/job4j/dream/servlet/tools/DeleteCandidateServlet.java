@@ -11,10 +11,6 @@ import java.util.Objects;
 
 public class DeleteCandidateServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CandidatePerformer candidatePerformer = CandidatePerformer.instOf();
         String candidateId = req.getParameter("id");

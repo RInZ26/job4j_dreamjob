@@ -203,19 +203,15 @@ public class PsqlStore implements Store {
 
     @Override
     public boolean deleteCandidateById(int id) {
+        boolean result = true;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("DELETE FROM candidate as c where c.id = ?")
-        ) {
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM candidate as c where c.id = ?")) {
             ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    System.out.println(rs);
-                }
-            }
+            ps.executeUpdate();
         } catch (Exception e) {
+            result = false;
             log.error(String.format("deleteCandidateById with %s was failed with message %s ", id, e.getMessage()), e);
         }
-        return true;
-
+        return result;
     }
 }
