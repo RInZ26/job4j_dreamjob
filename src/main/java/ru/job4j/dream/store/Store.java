@@ -45,4 +45,11 @@ public interface Store {
      * @return найденный кандидат
      */
     Candidate finCandidateById(int id);
+
+    /**
+     * Удаление кандидата
+     * @param id
+     * @return был ли такой кандидат вообще и удалён?
+     */
+    boolean deleteCandidateById(int id);
 }

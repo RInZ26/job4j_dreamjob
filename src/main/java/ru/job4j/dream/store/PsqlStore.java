@@ -1,9 +1,8 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.io.filefilter.CanReadFileFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class PsqlStore implements Store {
-    private final Logger log = LoggerFactory.getLogger(PsqlStore.class);
+    private final Logger log = LogManager.getLogger(PsqlStore.class);
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlStore() {
@@ -177,7 +176,7 @@ public class PsqlStore implements Store {
             }
             ps.setInt(1, id);
         } catch (Exception e) {
-            log.error(String.format("findPostById with %s was failed with message ", id, e.getMessage()), e);
+            log.error(String.format("findPostById with %s was failed with message %s", id, e.getMessage()), e);
         }
         return result;
     }
@@ -196,8 +195,27 @@ public class PsqlStore implements Store {
             }
             ps.setInt(1, id);
         } catch (Exception e) {
-            log.error(String.format("findCandidateById with %s was failed with message ", id, e.getMessage()), e);
+            log.error(String.format("findCandidateById with %s was failed with message %s ", id, e.getMessage()), e);
         }
         return result;
+    }
+
+
+    @Override
+    public boolean deleteCandidateById(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM candidate as c where c.id = ?")
+        ) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    System.out.println(rs);
+                }
+            }
+        } catch (Exception e) {
+            log.error(String.format("deleteCandidateById with %s was failed with message %s ", id, e.getMessage()), e);
+        }
+        return true;
+
     }
 }

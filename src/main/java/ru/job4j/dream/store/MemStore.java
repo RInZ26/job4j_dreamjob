@@ -5,6 +5,7 @@ import ru.job4j.dream.model.Post;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -53,7 +54,7 @@ public class MemStore implements Store {
 
     @Override
     public void saveCandidate(Candidate candidate) {
-        if(candidate.getId() == 0) {
+        if (candidate.getId() == 0) {
             candidate.setId(CANDIDATE_ID.incrementAndGet());
         }
         candidates.put(candidate.getId(), candidate);
@@ -67,5 +68,10 @@ public class MemStore implements Store {
     @Override
     public Candidate finCandidateById(int id) {
         return candidates.get(id);
+    }
+
+    @Override
+    public boolean deleteCandidateById(int id) {
+        return Objects.nonNull(candidates.remove(id));
     }
 }
