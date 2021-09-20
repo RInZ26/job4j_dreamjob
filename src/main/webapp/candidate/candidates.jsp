@@ -32,9 +32,34 @@
 
     <div class="row">
         <div class="card" style="width: 100%">
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Меню</a>
-            </li>
+            <div class="row">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Меню</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+                    </li>
+                    <c:if test="${sessionScope.user != null}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%=request.getContextPath()%>/security/login.jsp"> <c:out
+                                    value="${sessionScope.user.name}"/></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%=request.getContextPath()%>/logout.do">| Выйти</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </div>
             <div class="card-header">
                 Кандидаты
             </div>
