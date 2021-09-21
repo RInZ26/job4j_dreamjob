@@ -28,29 +28,39 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Авторизация
+                Регистрация
             </div>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/reg.do">Регистрация</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/auth.do">Войти</a>
             </li>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/auth.do" method="post">
+                <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
                         <label>Почта</label>
                         <input type="text" class="form-control" name="email">
                     </div>
                     <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="text" class="form-control" name="password">
+                        <label>Имя</label>
+                        <input type="text" class="form-control" name="name">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
-                    <c:if test="${not empty error}">
-                        <div style="color:red; font-weight: bold; margin: 30px 0;">
-                            <%=request.getAttribute("error")%>
-                        </div>
-                    </c:if>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="text" class="form-control" name="firstPassword">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Подтвердите пароль</label>
+                        <input type="text" class="form-control" name="secondPassword">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ок</button>
                 </form>
             </div>
+
+            <c:if test="${not empty error}">
+                <div style="color:red; font-weight: bold; margin: 30px 0;">
+                    <%=request.getAttribute("error")%>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>
