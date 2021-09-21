@@ -97,4 +97,9 @@ public class MemStore implements Store {
     public boolean deleteUserById(int id) {
         return Objects.nonNull(users.remove(id));
     }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return users.values().stream().filter(u -> u.getEmail().equals(email)).findFirst().orElse(null);
+    }
 }

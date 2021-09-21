@@ -73,6 +73,14 @@ public interface Store {
     User findUserById(int id);
 
     /**
+     * Поиск пользователя по email
+     *
+     * @param email
+     * @return
+     */
+    User findUserByEmail(String email);
+
+    /**
      * Поиск всех пользователей
      *
      * @return

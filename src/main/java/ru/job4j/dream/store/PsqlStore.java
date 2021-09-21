@@ -265,7 +265,7 @@ public class PsqlStore implements Store {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    result = new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"));
+                    result = castToUser(rs);
                 }
             }
         } catch (Exception e) {
@@ -293,13 +293,42 @@ public class PsqlStore implements Store {
         List<User> users = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM user4j");
-             ResultSet it = ps.executeQuery();) {
-            while (it.next()) {
-                users.add(new User(it.getInt("id"), it.getString("name"), it.getString("email"), it.getString("password")));
+             ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                users.add(castToUser(rs));
             }
         } catch (Exception e) {
             log.error(e);
         }
         return users;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        User result = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM user4j WHERE email = ?");) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    result = castToUser(rs);
+                }
+            }
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return result;
+    }
+
+    /**
+     * Собирает объект User по полям, загруженным из БД
+     * БЕЗ предварительный проверки на rs.next()
+     *
+     * @param rs - ResultSet полученный из запроса
+     * @return
+     * @throws Exception
+     */
+    private User castToUser(ResultSet rs) throws Exception {
+        return new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"));
     }
 }
