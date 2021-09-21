@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -174,7 +175,6 @@ public class PsqlStore implements Store {
                     result = new Post(id, rs.getString("name"));
                 }
             }
-            ps.setInt(1, id);
         } catch (Exception e) {
             log.error(String.format("findPostById with %s was failed with message %s", id, e.getMessage()), e);
         }
@@ -193,7 +193,6 @@ public class PsqlStore implements Store {
                     result = new Candidate(id, rs.getString("name"));
                 }
             }
-            ps.setInt(1, id);
         } catch (Exception e) {
             log.error(String.format("findCandidateById with %s was failed with message %s ", id, e.getMessage()), e);
         }
@@ -213,5 +212,94 @@ public class PsqlStore implements Store {
             log.error(String.format("deleteCandidateById with %s was failed with message %s ", id, e.getMessage()), e);
         }
         return result;
+    }
+
+    @Override
+    public void saveUser(User user) {
+        if (0 == user.getId()) {
+            createUser(user);
+        } else {
+            updateUser(user);
+        }
+    }
+
+    private User createUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO user4j(name, email, password) VALUES (?, ?, ?)")
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            log.error(String.format("createUser with %s was failed with message %s ", user.toString(), e.getMessage()), e);
+        }
+        return user;
+    }
+
+    private void updateUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "UPDATE post set name = ?, email = ?, password = ? where id = ? ");
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setInt(4, user.getId());
+            ps.execute();
+        } catch (Exception e) {
+            log.error(String.format("updateUser with %s was failed with message %s", user.toString(), e.getMessage()), e);
+        }
+    }
+
+    @Override
+    public User findUserById(int id) {
+        User result = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM user4j where id = ?")) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    result = new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"));
+                }
+            }
+        } catch (Exception e) {
+            log.error(String.format("findUserById with %s was failed with message %s", id, e.getMessage()), e);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean deleteUserById(int id) {
+        boolean result = true;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM user4j as c where c.id = ?")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            result = false;
+            log.error(String.format("deleteUserById with %s was failed with message %s ", id, e.getMessage()), e);
+        }
+        return result;
+    }
+
+    @Override
+    public Collection<User> findAllUsers() {
+        List<User> users = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM user4j");
+             ResultSet it = ps.executeQuery();) {
+            while (it.next()) {
+                users.add(new User(it.getInt("id"), it.getString("name"), it.getString("email"), it.getString("password")));
+            }
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return users;
     }
 }

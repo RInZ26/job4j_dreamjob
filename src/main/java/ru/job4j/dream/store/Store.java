@@ -2,6 +2,7 @@ package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.util.Collection;
 
@@ -27,6 +28,7 @@ public interface Store {
 
     /**
      * Сохранение кандидата в БД
+     *
      * @param candidate сохраняемый кандидат
      */
     void saveCandidate(Candidate candidate);
@@ -41,6 +43,7 @@ public interface Store {
 
     /**
      * Поиск кандидата по id
+     *
      * @param id id
      * @return найденный кандидат
      */
@@ -48,8 +51,39 @@ public interface Store {
 
     /**
      * Удаление кандидата
+     *
      * @param id
      * @return был ли такой кандидат вообще и удалён?
      */
     boolean deleteCandidateById(int id);
+
+    /**
+     * Сохранение пользователя
+     *
+     * @param user
+     */
+    void saveUser(User user);
+
+    /**
+     * Поиск пользователя по id
+     *
+     * @param id id
+     * @return найденный пользователь
+     */
+    User findUserById(int id);
+
+    /**
+     * Поиск всех пользователей
+     *
+     * @return
+     */
+    Collection<User> findAllUsers();
+
+    /**
+     * Удаление пользователя
+     *
+     * @param id
+     * @return был ли такой пользователь вообще и удалён?
+     */
+    boolean deleteUserById(int id);
 }
