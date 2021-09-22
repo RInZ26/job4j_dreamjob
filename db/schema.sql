@@ -14,6 +14,6 @@ CREATE TABLE user4j
 (
     id       SERIAL PRIMARY KEY,
     name     TEXT,
-    email    TEXT,
+    email    TEXT UNIQUE,
     password TEXT
 );
