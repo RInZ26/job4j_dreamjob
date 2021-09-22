@@ -37,20 +37,20 @@
                 <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
                         <label>Почта</label>
-                        <input type="text" class="form-control" name="email">
+                        <input type="text" class="form-control" required name="email">
                     </div>
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" required name="name">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="text" class="form-control" name="firstPassword">
+                        <input type="text" class="form-control" required name="firstPassword">
                     </div>
 
                     <div class="form-group">
                         <label>Подтвердите пароль</label>
-                        <input type="text" class="form-control" name="secondPassword">
+                        <input type="text" class="form-control" required name="secondPassword">
                     </div>
                     <button type="submit" class="btn btn-primary">Ок</button>
                 </form>

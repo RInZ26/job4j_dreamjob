@@ -32,19 +32,6 @@ public class RegHelper {
 
 
     /**
-     * Проверка, что все необходимые поля реквеста заполнены
-     *
-     * @param req request с doPost
-     * @return true, если valid
-     */
-    public static boolean validateReqFields(HttpServletRequest req) {
-        return StringUtils.isNotEmpty(req.getParameter("email"))
-                && StringUtils.isNotEmpty(req.getParameter("name"))
-                && StringUtils.isNotEmpty(req.getParameter("firstPassword"))
-                && StringUtils.isNotEmpty(req.getParameter("secondPassword"));
-    }
-
-    /**
      * Прослойка, чтобы не вызывать Store из сервлета
      *
      * @param name

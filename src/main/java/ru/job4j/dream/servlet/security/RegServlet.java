@@ -16,12 +16,6 @@ public class RegServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if (!RegHelper.validateReqFields(req)) {
-            finishWorkByError("Не все поля были заполнены", req, resp);
-            return;
-        }
-
         String email = req.getParameter("email");
         String name = req.getParameter("name");
         String firstPass = req.getParameter("firstPassword");
