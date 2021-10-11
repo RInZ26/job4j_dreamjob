@@ -9,16 +9,44 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
+        function addValidRow() {
+            if (validate()) {
+                addRow();
+            }
+        }
+
         function validate() {
-         checkField($('#usr'))
-         checkField($('#pwd'))
+            let isValidName = checkField($('#usrName'));
+            let isValidSurname = checkField($('#usrSurname'));
+            let isValidHandle = checkField($('#usrHandle'));
+            let isValidPassword = checkField($('#pwd'));
+            return isValidName && isValidSurname && isValidHandle && isValidPassword;
         }
 
         function checkField(field) {
             if (field.val() == '') {
-                alert(field.attr('title'))
+                alert(field.attr('title'));
+                return false;
+            } else {
+                return true;
             }
         }
+
+        function addRow() {
+            var table = document.getElementById('userTable');
+
+            const nextIndex = table.rows.length;
+            const name = $('#usrName').val();
+            const surname = $('#usrSurname').val();
+            const handle = $('#usrHandle').val();
+
+            $('#userTable tr:last').after(createRow(nextIndex, name, surname, handle));
+        }
+
+        function createRow(id, first, last, handle) {
+            return '<tr>' + '<th>' + id + '</th>' + '<td>' + first + '</td>' + '<td>' + last + '</td>' + '<td>' + handle + '</td>' + '</tr>'
+        }
+
     </script>
 </head>
 <body>
@@ -34,18 +62,26 @@
         <p>The form below contains two input elements; one of type text and one of type password:</p>
         <form>
             <div class="form-group">
-                <label for="usr">Name:</label>
-                <input type="text" class="form-control" title="Enter user name." id="usr">
+                <label for="usrName">Name:</label>
+                <input type="text" class="form-control" title="Enter user name." id="usrName">
+            </div>
+            <div class="form-group">
+                <label for="usrSurname">Surname:</label>
+                <input type="text" class="form-control" title="Enter user surname." id="usrSurname">
+            </div>
+            <div class="form-group">
+                <label for="usrHandle">Handle:</label>
+                <input type="text" class="form-control" title="Enter user handle." id="usrHandle">
             </div>
             <div class="form-group">
                 <label for="pwd">Password:</label>
                 <input type="password" title="Enter password." class="form-control" id="pwd">
             </div>
-            <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
+            <button type="button" class="btn btn-default" onclick="return addValidRow();">Submit</button>
         </form>
     </div>
 </form>
-<table class="table">
+<table class="table" id="userTable">
     <thead>
     <tr>
         <th scope="col">#</th>
